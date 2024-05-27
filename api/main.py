@@ -2,6 +2,7 @@ from flask import Flask
 import os
 import psycopg
 import json
+import urllib.parse
 from dotenv import load_dotenv
 
 if os.path.isfile('./.env'):
@@ -28,7 +29,7 @@ def get_game(name):
     cur = conn.cursor()
 
     query = "SELECT * FROM Games WHERE Name ILIKE %s"
-    name_pattern = f"%{name}%"
+    name_pattern = f"%{urllib.parse.unquote(name)}%"
     cur.execute(query, (name_pattern,))
 
     result = []
